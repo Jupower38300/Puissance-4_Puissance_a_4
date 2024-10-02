@@ -1,11 +1,10 @@
 import './App.css';
-import * as Button  from './components/button';
 import * as Board from './components/Board.jsx'
+
 function App() {
   return (
-    <div className="App">
+    <div className="App flex justify-center items-center h-screen">
       <header className="App-header">
-        <Button.buttonJouer/>
         <Board.Board rows={6} cols={7} />
       </header>
     </div>
