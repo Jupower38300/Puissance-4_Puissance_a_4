@@ -11,7 +11,8 @@ function App() {
   return (
     <div className="App bg-black h-[100vh]">
       <header className="App-header">
-        <Button.buttonJouer/>
+        <Button.ButtonDarkBlue text='Jouer'/>
+        <Button.ButtonLightBlue text='Jouer'/>
       </header>
       {/* modification à supprimer Bastian*/}
       <Token />
