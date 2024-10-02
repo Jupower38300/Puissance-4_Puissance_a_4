@@ -1,6 +1,6 @@
 import './App.css';
 import * as Button  from './components/button';
-import { Token, TokenActive } from './components/tokens';
+import { Token, TokenActive, TokenPlay } from './components/tokens';
 function App() {
   return (
     <div className="App bg-black h-[100vh]">
@@ -10,6 +10,7 @@ function App() {
       {/* modification à supprimer Bastian*/}
       <Token />
       <TokenActive />
+      <TokenPlay/>
     </div>
 
   );
