@@ -1,13 +1,16 @@
 import './App.css';
-import * as Button  from './components/button';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Signup } from './pages/Signup.jsx';
+import Test from './pages/Test.jsx';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Button.buttonJouer/>
-      </header>
-    </div>
-
+    <>
+      <Router>
+        <Routes>
+          <Route path='/signup' element={<Signup />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
