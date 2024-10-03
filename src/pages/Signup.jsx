@@ -1,4 +1,4 @@
-import { ButtonDarkBlue, ButtonLightBlue } from "../components/button"
+import { ButtonDarkBlue } from "../components/button"
 import { InputRadio, InputText } from "../components/input"
 import { TokenPlay } from "../components/tokens"
 
