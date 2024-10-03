@@ -1,21 +1,16 @@
-import { useState } from 'react';
 import './App.css';
-import * as Board from './components/Board.jsx'
-
-import * as Button  from './components/button';
-import { InputText } from './components/input';
-import { Token, TokenActive, TokenPlay } from './components/tokens';
-import Game from './pages/Game.jsx';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Signup } from './pages/Signup.jsx';
+import Test from './pages/Test.jsx';
 function App() {
-  const [inputValue, setInputValue] = useState('');
-  const handleChange = (e) => {
-    setInputValue(e.target.value)
-  }
   return (
-    <div className="App bg-black flex justify-center items-center h-screen bg-violet-950 h-screen">
-        <Game/>
-    </div>
-
+    <>
+      <Router>
+        <Routes>
+          <Route path='/signup' element={<Signup />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
