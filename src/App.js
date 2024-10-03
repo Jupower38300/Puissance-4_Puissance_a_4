@@ -5,13 +5,14 @@ import * as Board from './components/Board.jsx'
 import * as Button  from './components/button';
 import { InputText } from './components/input';
 import { Token, TokenActive, TokenPlay } from './components/tokens';
+import { Signup } from './pages/Signup.jsx';
 function App() {
   const [inputValue, setInputValue] = useState('');
   const handleChange = (e) => {
     setInputValue(e.target.value)
   }
   return (
-    <div className="App bg-black flex justify-center items-center h-screen bg-violet-950 h-screen">
+    <div className="App bg-black flex flex-col justify-center items-center h-screen bg-violet-950 h-screen">
       <header className="App-header">
         <Board.Board rows={6} cols={7} />
         <Button.ButtonDarkBlue text='Jouer'/>
@@ -34,6 +35,7 @@ function App() {
         <span class="inline-block rotate-[25deg] pb-[13%]">E</span>
         <span class="inline-block rotate-[-5deg]" className='text-violet-950'>"</span>
         <span class="inline-block rotate-[30deg]">4</span></h1>
+        <Signup/>
     </div>
   );
 }
