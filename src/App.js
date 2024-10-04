@@ -1,16 +1,16 @@
-import { useState } from 'react';
 import './App.css';
-import Home from './pages/Home';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Signup } from './pages/Signup.jsx';
+import Test from './pages/Test.jsx';
 function App() {
-  const [inputValue, setInputValue] = useState('');
-  const handleChange = (e) => {
-    setInputValue(e.target.value)
-  }
   return (
-    <div>
-      <Home />
-    </div>
+    <>
+      <Router>
+        <Routes>
+          <Route path='/signup' element={<Signup />} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
