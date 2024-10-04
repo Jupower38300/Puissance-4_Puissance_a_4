@@ -69,15 +69,22 @@ export function Board({ rows, cols, isPlayer1Turn, onPlayerMove }) {
             const rowCells = [];
             for (let col = 0; col < cols; col++) {
                 const isWinningCell = winningPieces.some(([winRow, winCol]) => winRow === row && winCol === col);
-
+                const isDroppedToken = board[row][col] !== null; // Check if the cell has a token
+    
+                // Set animation delay based on how far the piece is from the top
+                const delay = `${(rows - row) * 0.05}s`; // Slightly reduced delay for faster animation
+    
                 rowCells.push(
                     <td
                         key={`${row}-${col}`}
                         className={`w-[60px] h-[60px] bg-[#132445] rounded-full shadow-black shadow-[inset_-7px_-7px_10px_-5px] cursor-pointer transition-all duration-500 ease-out
                         ${board[row][col] === 'P1' ? 'bg-red-500 drop-token' : board[row][col] === 'P2' ? 'bg-yellow-500 drop-token' : ''}
+                        ${!isDroppedToken ? 'bg-[#132445]' : ''} /* Ensure slot stays visible */
                         ${isWinningCell ? 'ring-4 ring-green-400' : ''}
                         `}
-                        style={{ animationDelay: `${col * 100}ms` }} 
+                        style={{
+                            animationDelay: delay,
+                        }}
                         onClick={() => handleClick(col)}
                     ></td>
                 );
@@ -86,13 +93,44 @@ export function Board({ rows, cols, isPlayer1Turn, onPlayerMove }) {
         }
         return grid;
     };
+    
+    
+    
 
     return (
+
         <div className="flex flex-col items-center">
-            <table className="table-fixed border-separate border-spacing-4">
+            <table className="table-fixed border-separate border-spacing-4 bg-sky-900 rounded-t-3xl">
                 <tbody>{createGrid()}</tbody>
             </table>
             {winner && <div className="text-white mt-5 text-2xl">{winner} wins!</div>}
+
+            <style>
+        {`
+
+            @keyframes fall-bounce {
+            0% {
+                transform: translateY(-500%);
+            }
+            85% {
+                transform: translateY(0%);
+            }
+            90% {
+                transform: translateY(-10%);
+            }
+            100% {
+                transform: translateY(0%);
+            }
+            }
+
+            .drop-token {
+            animation: fall-bounce 0.4s ease-out forwards; /* Faster (0.4s) and forwards to maintain final state */
+            pointer-events: none; /* Disable pointer events during animation */
+            }
+
+        `}
+      </style>
         </div>
     );
 }
+

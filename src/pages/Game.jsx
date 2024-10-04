@@ -39,12 +39,11 @@ function Player1({ IsPlayer1 }) {
     );
 }
 
-// Player2 Component
-function Player2({ IsPlayer2 }) {
-    return (
-        <div className="text-white flex flex-row justify-between items-center w-[8em] text-3xl">
+ function Player2({ IsPlayer2 }) {
+     return (
+         <div className="text-white flex flex-row justify-between items-center w-[8em] text-3xl">
             <h1>Player 2</h1>
             {IsPlayer2 ? <Token.TokenActive color="bg-yellow-500" /> : <Token.Token color="bg-yellow-500" />}
-        </div>
-    );
-}
+         </div>
+        );
+ }
