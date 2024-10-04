@@ -2,12 +2,19 @@ import { useState, useEffect } from 'react';
 import { ButtonDarkBlue, ButtonLightBlue } from '../components/button';
 import { CardRoom } from '../components/card';
 import { InputText } from '../components/input';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const Room = () => {
   const [rooms, setRooms] = useState([]);
   const [nameRoom, setNameRoom] = useState('');
   const [clicked, setClicked] = useState(false);
-
+  const navigate = useNavigate()
+  const location = useLocation();
+  const getQueryParams = (search) => {
+    const params = new URLSearchParams(search);
+    return(params.get('name')); // Récupère la valeur du paramètre 'name'
+  };
+  const name = getQueryParams(location.search); 
   useEffect(() => {
     fetch('http://localhost:5000/rooms')
       .then((response) => response.json())
@@ -21,7 +28,7 @@ export const Room = () => {
   };
   const addRoom = () => {
     const newRoom = {
-      players: [{ name: 'Player 1' }],
+      players: [{ name: name }],
       name: nameRoom,
       id: rooms.length + 1,
     };
@@ -40,6 +47,7 @@ export const Room = () => {
       );
       setNameRoom('')
       setClicked(false)
+      navigate('/game')
   };
 
   return (

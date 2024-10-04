@@ -12,7 +12,7 @@ export const InputText = ({ className, onChange, placeholder }) => {
     </>
   );
 };
-export const InputRadio = ({ label, name, id }) => {
+export const InputRadio = ({ label, name, id, onChange, checked }) => {
   return (
     <>
       <input
@@ -20,6 +20,8 @@ export const InputRadio = ({ label, name, id }) => {
         type='radio'
         name={name ? name : ''}
         id={id ? id : ''}
+        onChange={onChange}
+        checked={checked?checked: false}
       />
       {label ? (
         <label for={name ? name : ''} className='text-[#1F1442] text-xl'>
