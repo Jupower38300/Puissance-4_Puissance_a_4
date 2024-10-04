@@ -77,7 +77,7 @@ export function Board({ rows, cols, isPlayer1Turn, onPlayerMove }) {
                         ${board[row][col] === 'P1' ? 'bg-red-500 drop-token' : board[row][col] === 'P2' ? 'bg-yellow-500 drop-token' : ''}
                         ${isWinningCell ? 'ring-4 ring-green-400' : ''}
                         `}
-                        style={{ animationDelay: `${col * 100}ms` }}  // Staggered animation delay for drop effect
+                        style={{ animationDelay: `${col * 100}ms` }} 
                         onClick={() => handleClick(col)}
                     ></td>
                 );
@@ -89,7 +89,7 @@ export function Board({ rows, cols, isPlayer1Turn, onPlayerMove }) {
 
     return (
         <div className="flex flex-col items-center">
-            <table className="table-fixed border-separate">
+            <table className="table-fixed border-separate border-spacing-4">
                 <tbody>{createGrid()}</tbody>
             </table>
             {winner && <div className="text-white mt-5 text-2xl">{winner} wins!</div>}

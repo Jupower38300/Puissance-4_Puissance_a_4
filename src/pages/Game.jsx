@@ -33,7 +33,7 @@ export default function Game() {
 function Player1({ IsPlayer1 }) {
     return (
         <div className="text-white flex flex-row justify-between items-center w-[8em] text-3xl">
-            {IsPlayer1 ? <Token.TokenActive /> : <Token.Token />}
+            {IsPlayer1 ? <Token.TokenActive color="bg-red-500" /> : <Token.Token color="bg-red-500"/>}
             <h1>Player 1</h1>
         </div>
     );
@@ -44,7 +44,7 @@ function Player2({ IsPlayer2 }) {
     return (
         <div className="text-white flex flex-row justify-between items-center w-[8em] text-3xl">
             <h1>Player 2</h1>
-            {IsPlayer2 ? <Token.TokenActive /> : <Token.Token />}
+            {IsPlayer2 ? <Token.TokenActive color="bg-yellow-500" /> : <Token.Token color="bg-yellow-500" />}
         </div>
     );
 }
