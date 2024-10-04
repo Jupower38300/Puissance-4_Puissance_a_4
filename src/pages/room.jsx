@@ -8,13 +8,13 @@ export const Room = () => {
   const [rooms, setRooms] = useState([]);
   const [nameRoom, setNameRoom] = useState('');
   const [clicked, setClicked] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const location = useLocation();
   const getQueryParams = (search) => {
     const params = new URLSearchParams(search);
-    return(params.get('name')); // Récupère la valeur du paramètre 'name'
+    return params.get('name'); // Récupère la valeur du paramètre 'name'
   };
-  const name = getQueryParams(location.search); 
+  const name = getQueryParams(location.search);
   useEffect(() => {
     fetch('http://localhost:5000/rooms')
       .then((response) => response.json())
@@ -45,9 +45,9 @@ export const Room = () => {
       .catch((error) =>
         console.error('Erreur lors de la création de la room:', error)
       );
-      setNameRoom('')
-      setClicked(false)
-      navigate('/game')
+    setNameRoom('');
+    setClicked(false);
+    navigate('/game');
   };
 
   return (

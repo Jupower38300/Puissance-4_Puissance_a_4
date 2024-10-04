@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Signup } from './pages/Signup.jsx';
 import { Room } from './pages/room.jsx';
-import Home from './pages/Home.js';
+import Home from './pages/Home.jsx';
 import Game from './pages/Game.jsx';
 function App() {
   return (
