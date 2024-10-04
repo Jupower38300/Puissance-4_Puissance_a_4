@@ -11,20 +11,22 @@ export default function Game() {
     }
 
     return (
+
         <div className="flex flex-col w-screen h-screen justify-start items-center bg-[#2a2255]">
-            {/* Section Players */}
-            <div className="flex w-full max-w-[50em] justify-between p-10">
+
+            <div className="flex w-full max-w-[50em] justify-between p-10 mt-10 mb-10">
                 <Player1 IsPlayer1={isPlayer1Turn} />
                 <Player2 IsPlayer2={!isPlayer1Turn} />
             </div>
 
-            {/* Board Section - Pass the current player state and the toggle function */}
+
             <Board.Board
                 rows={6}
                 cols={7}
                 isPlayer1Turn={isPlayer1Turn}
                 onPlayerMove={handlePlayerMove}
             />
+
         </div>
     );
 }
