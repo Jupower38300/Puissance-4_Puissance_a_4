@@ -1,37 +1,98 @@
-    export function Board({ rows, cols }) {
-        const createGrid = () => {
-            const grid = [];
-            for (let crow = 0; crow < rows; crow++) {
-                const row = [];
-                for (let ccol = 0; ccol < cols; ccol++) {
-                    row.push(<td className="w-[60px] h-[60px] bg-[#5e5e5e] rounded-full shadow-black shadow-[inset_-7px_-7px_10px_-5px]" key={`${crow}-${ccol}`}></td>);
+import { useState } from "react";
+
+export function Board({ rows, cols, isPlayer1Turn, onPlayerMove }) {
+    const [board, setBoard] = useState(Array(rows).fill(null).map(() => Array(cols).fill(null)));
+    const [winner, setWinner] = useState(null); // Track if there's a winner
+    const [winningPieces, setWinningPieces] = useState([]); // Track the winning pieces' positions
+
+    function handleClick(col) {
+        if (winner) return; // If game is over, no further moves allowed
+
+        // Find the first available row in the selected column
+        for (let row = rows - 1; row >= 0; row--) {
+            if (!board[row][col]) {
+                const newBoard = [...board];
+                newBoard[row][col] = isPlayer1Turn ? 'P1' : 'P2'; // Set the correct player's token
+
+                setBoard(newBoard);
+
+                // Check if the move results in a win
+                const winCheck = checkWin(newBoard, row, col, newBoard[row][col]);
+                if (winCheck) {
+                    setWinner(newBoard[row][col]);
+                    setWinningPieces(winCheck); // Set the winning pieces' positions
+                } else {
+                    // Toggle the turn if no win
+                    onPlayerMove();
                 }
-                grid.push(<tr key={crow}>{row}</tr>);
+                break;
             }
-            return grid;
-        };
-    
+        }
+    }
+
+    // Function to check for a win (horizontal, vertical, diagonal)
+    function checkWin(board, row, col, player) {
         return (
-            <>
-<div className="table bg-gradient-to-br from-[#6b6861] to-[#46443f] rounded-3xl w-full h-full max-h-[30vw] max-w-[45vw] p-2">
-    <table className="table-auto w-full h-full border-separate border-spacing-4 border-spacing-x-10 border-spacing-l-4 rounded-2xl">
-        <thead>
-            {/* Add any necessary table headers here */}
-        </thead>
-        <tbody>
-            {createGrid()}
-        </tbody>
-    </table>
-</div>
-            {/* <div className="table bg-gradient-to-br from-[#6b6861] to-[#46443f] rounded-3xl h-auto w-50 ">
-                    <table className="table-auto w-full border-separate border-spacing-3 rounded-3xl shadow-inner ">
-                        <thead>
-                        </thead>
-                        <tbody>
-                            {createGrid()}
-                        </tbody>
-                    </table>
-                </div> */}
-            </>
+            checkDirection(board, row, col, player, 0, 1) || // Check horizontally
+            checkDirection(board, row, col, player, 1, 0) || // Check vertically
+            checkDirection(board, row, col, player, 1, 1) || // Check diagonal (bottom-left to top-right)
+            checkDirection(board, row, col, player, 1, -1)   // Check diagonal (top-left to bottom-right)
         );
     }
+
+    // Function to check in a specific direction (e.g., horizontal or vertical)
+    function checkDirection(board, row, col, player, rowIncrement, colIncrement) {
+        let count = 0;
+        let winningCells = [];
+
+        // Check in one direction (e.g., right for horizontal, up for vertical)
+        for (let i = -3; i <= 3; i++) {
+            const newRow = row + i * rowIncrement;
+            const newCol = col + i * colIncrement;
+
+            if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && board[newRow][newCol] === player) {
+                winningCells.push([newRow, newCol]);
+                count++;
+                if (count === 4) return winningCells; // Return the winning cells' positions if 4 in a row
+            } else {
+                count = 0; // Reset count if interrupted
+                winningCells = []; // Reset the winning cells array
+            }
+        }
+        return null;
+    }
+
+    // Render the game grid with animations and winning highlights
+    const createGrid = () => {
+        const grid = [];
+        for (let row = 0; row < rows; row++) {
+            const rowCells = [];
+            for (let col = 0; col < cols; col++) {
+                const isWinningCell = winningPieces.some(([winRow, winCol]) => winRow === row && winCol === col);
+
+                rowCells.push(
+                    <td
+                        key={`${row}-${col}`}
+                        className={`w-[60px] h-[60px] bg-[#132445] rounded-full shadow-black shadow-[inset_-7px_-7px_10px_-5px] cursor-pointer transition-all duration-500 ease-out
+                        ${board[row][col] === 'P1' ? 'bg-red-500 drop-token' : board[row][col] === 'P2' ? 'bg-yellow-500 drop-token' : ''}
+                        ${isWinningCell ? 'ring-4 ring-green-400' : ''}
+                        `}
+                        style={{ animationDelay: `${col * 100}ms` }} 
+                        onClick={() => handleClick(col)}
+                    ></td>
+                );
+            }
+            grid.push(<tr key={row}>{rowCells}</tr>);
+        }
+        return grid;
+    };
+
+    return (
+        <div className="flex flex-col items-center">
+            <table className="table-fixed border-separate border-spacing-4">
+                <tbody>{createGrid()}</tbody>
+            </table>
+            {winner && <div className="text-white mt-5 text-2xl">{winner} wins!</div>}
+        </div>
+    );
+}
