@@ -133,4 +133,3 @@ export function Board({ rows, cols, isPlayer1Turn, onPlayerMove }) {
         </div>
     );
 }
-
