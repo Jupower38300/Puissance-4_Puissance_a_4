@@ -16,7 +16,7 @@ export const Room = () => {
   };
   const name = getQueryParams(location.search);
   useEffect(() => {
-    fetch('http://localhost:5000/rooms')
+    fetch('http://localhost:8081/rooms')
       .then((response) => response.json())
       .then((data) => setRooms(data))
       .catch((error) =>
@@ -32,7 +32,7 @@ export const Room = () => {
       name: nameRoom,
       id: rooms.length + 1,
     };
-    fetch('http://localhost:5000/rooms', {
+    fetch('http://localhost:8081/rooms', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
