@@ -8,13 +8,11 @@ export const Room = () => {
   const [rooms, setRooms] = useState([]);
   const [nameRoom, setNameRoom] = useState('');
   const [clicked, setClicked] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
-  const getQueryParams = (search) => {
-    const params = new URLSearchParams(search);
-    return params.get('name'); // Récupère la valeur du paramètre 'name'
-  };
-  const name = getQueryParams(location.search);
+  const searchParams = new URLSearchParams(location.search);
+  const namePlayer = searchParams.get('name');
+
+  const navigate = useNavigate();
   useEffect(() => {
     fetch('http://localhost:8081/rooms')
       .then((response) => response.json())
@@ -26,13 +24,16 @@ export const Room = () => {
   const addNameRoom = () => {
     setClicked(true);
   };
-  const addRoom = () => {
+  const addRoom = async () => {
     const newRoom = {
-      players: [{ name: name }],
       name: nameRoom,
-      id: rooms.length + 1,
+      namePlayer: namePlayer,
     };
-    fetch('http://localhost:8081/rooms', {
+    const newGame = {
+      nameRoom: nameRoom,
+      namePlayer: namePlayer,
+    };
+    await fetch('http://localhost:8081/rooms', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,9 +46,18 @@ export const Room = () => {
       .catch((error) =>
         console.error('Erreur lors de la création de la room:', error)
       );
+    navigate('/game');
+    fetch('http://localhost:8081/game', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newGame),
+    }).catch((error) =>
+      console.error('Erreur lors de la création de la partie:', error)
+    );
     setNameRoom('');
     setClicked(false);
-    navigate('/game');
   };
 
   return (
